@@ -1,13 +1,13 @@
 import { useState } from "react";
-import axios from "axios";
+import axios from "axios"; //import axios
+// create.js
 
 const Create = () => {
-
+    //set attributes with useState
     const [title, setTitle] = useState('');
     const [year, setYear] = useState('');
     const [poster, setPoster] = useState('');
 
-    // create.js
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -18,7 +18,11 @@ const Create = () => {
             year: year,
             poster: poster
         };
-
+        /*
+            Add a POST method to the Express server that logs 
+            the title, year, and poster URL of the movie object
+            passed from the React app.
+        */
         axios.post('http://localhost:4000/api/movies', movie)
             .then((res) => console.log(res.data))
             .catch((err) => console.log(err.data));
@@ -27,6 +31,7 @@ const Create = () => {
     return (
         <div>
             <h3>Hello from create component!</h3>
+            {/* form element to receive input from user */}
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Add Movie Title: </label>
