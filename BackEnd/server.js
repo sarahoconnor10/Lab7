@@ -41,7 +41,7 @@ app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
 
-
+// movies route to return data in json format
 app.get('/api/movies', (req, res) => {
     const movies = [
         {
