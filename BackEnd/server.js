@@ -1,8 +1,18 @@
+/**
+ * seperate server to hold movie data and be accessed by application 
+ */
+
+//declare attributes
 const express = require('express');
 const app = express();
 const port = 4000;
-
 const cors = require('cors');
+/*
+    CORS (Cross-Origin Resource Sharing) 
+        is a security feature built into browsers that restricts 
+        web pages from making requests to a different domain or port 
+        than the one that served the web page.
+*/
 app.use(cors());
 
 app.use(function (req, res, next) {
@@ -11,6 +21,10 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
     res.send('Hello World');
