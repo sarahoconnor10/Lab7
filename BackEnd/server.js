@@ -25,6 +25,10 @@ app.use(function (req, res, next) {
     next();
 });
 
+/*
+    body-parsing middleware
+    responsible for parsing the incoming request bodies in a middleware before handling it
+*/
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
