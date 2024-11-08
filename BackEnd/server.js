@@ -15,6 +15,9 @@ const cors = require('cors');
 */
 app.use(cors());
 
+/*  This middleware setup allows app to make API requests 
+    to the backend (Express) without encountering CORS-related issues.
+*/
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
