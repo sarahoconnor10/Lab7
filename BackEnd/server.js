@@ -59,13 +59,13 @@ app.get('/api/movie/:id', async (req, res) => {
   });
 
 //Implement a method to fetch all movie records
-app.get('/api/movies', async (req, res) => {
+app.get('/api/movie', async (req, res) => {
     const myMovies = await movieModel.find({});
     res.status(200).json({ myMovies });
 });
 
 //Create a method to add new movie records
-app.post('/api/movies', async (req, res) => {
+app.post('/api/movie', async (req, res) => {
     console.log(req.body.title);
 
     const { title, year, poster } = req.body;
