@@ -42,9 +42,9 @@ const movieSchema = new mongoose.Schema({
     title: String,
     year: String,
     poster: String
-  });
- 
-  const Movie = mongoose.model('Movie', movieSchema);
+});
+
+const Movie = mongoose.model('Movie', movieSchema);
 
 
 app.get('/', (req, res) => {
@@ -54,21 +54,28 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
-
-app.post('/api/movies', async (req, res)=>{
+//Create a method to add new movie records
+app.post('/api/movies', async (req, res) => {
 
     const { title, year, poster } = req.body;
-   
+
     const newMovie = new Movie({ title, year, poster });
     await newMovie.save();
-   
-    res.status(201).json({ message: 'Movie created successfully', movie: newMovie });
-    })
 
-    app.get('/api/movies', async (req, res) => {
-        const movies = await Movie.find({});
-        res.json(movies);
-      });
+    res.status(201).json({ message: 'Movie created successfully', movie: newMovie });
+})
+
+//Implement a method to fetch all movie records
+app.get('/api/movies', async (req, res) => {
+    const movies = await Movie.find({});
+    res.json(movies);
+});
+
+app.get('/api/movie/:id', async (req, res) => {
+    const movie = await Movie.findById(req.params.id);
+    res.send(movie);
+  });
+
 
 // movies route to return data in json format
 // app.get('/api/movies', (req, res) => {
@@ -95,6 +102,6 @@ app.post('/api/movies', async (req, res)=>{
 //             "Poster": "https://m.media-amazon.com/images/M/MV5BNDQ4YzFmNzktMmM5ZC00MDZjLTk1OTktNDE2ODE4YjM2MjJjXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg"
 //         }
 //     ];
-    // res.status(200).json({ myMovies: movies });
-    // res.json({ movies });
+// res.status(200).json({ myMovies: movies });
+// res.json({ movies });
 // });
