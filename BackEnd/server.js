@@ -55,6 +55,17 @@ app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
 
+app.post('/api/movies', async (req, res)=>{
+
+    const { title, year, poster } = req.body;
+   
+    const newMovie = new Movie({ title, year, poster });
+    await newMovie.save();
+   
+    res.status(201).json({ message: 'Movie created successfully', movie: newMovie });
+    })
+
+
 // movies route to return data in json format
 app.get('/api/movies', (req, res) => {
     const movies = [
