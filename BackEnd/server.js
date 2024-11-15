@@ -33,6 +33,20 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+
+//db connection
+const mongoose = require('mongoose');
+mongoose.connect('mongodb+srv://admin:admin@cluster0.4a5pk.mongodb.net/DB11');
+
+const movieSchema = new mongoose.Schema({
+    title: String,
+    year: String,
+    poster: String
+  });
+ 
+  const Movie = mongoose.model('Movie', movieSchema);
+
+
 app.get('/', (req, res) => {
     res.send('Hello World');
 });
