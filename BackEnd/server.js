@@ -36,6 +36,7 @@ app.use(bodyParser.json());
 
 //db connection
 const mongoose = require('mongoose');
+const { eventWrapper } = require('@testing-library/user-event/dist/utils');
 mongoose.connect('mongodb+srv://admin:admin@cluster0.4a5pk.mongodb.net/DB11');
 
 const movieSchema = new mongoose.Schema({
@@ -44,40 +45,43 @@ const movieSchema = new mongoose.Schema({
     poster: String
 });
 
-const Movie = mongoose.model('Movie', movieSchema);
+const movieModel = mongoose.model('myMovies', movieSchema);
 
 
 app.get('/', (req, res) => {
     res.send('Hello World');
 });
 
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+// //Create a method to retrieve a specific movie by its ID
+app.get('/api/movie/:id', async (req, res) => {
+    const movie = await movieModel.findById(req.params.id);
+    res.send(movie);
+  });
+
+//Implement a method to fetch all movie records
+app.get('/api/movies', async (req, res) => {
+    const myMovies = await movieModel.find({});
+    res.status(200).json({ myMovies });
 });
+
 //Create a method to add new movie records
 app.post('/api/movies', async (req, res) => {
+    console.log(req.body.title);
 
     const { title, year, poster } = req.body;
 
-    const newMovie = new Movie({ title, year, poster });
+    const newMovie = new movieModel({ title, year, poster });
     await newMovie.save();
 
     res.status(201).json({ message: 'Movie created successfully', movie: newMovie });
 })
 
-//Implement a method to fetch all movie records
-app.get('/api/movies', async (req, res) => {
-    const movies = await Movie.find({});
-    res.json(movies);
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
 });
 
-app.get('/api/movie/:id', async (req, res) => {
-    const movie = await Movie.findById(req.params.id);
-    res.send(movie);
-  });
 
-
-// movies route to return data in json format
+// // movies route to return data in json format
 // app.get('/api/movies', (req, res) => {
 //     const movies = [
 //         {
@@ -103,5 +107,5 @@ app.get('/api/movie/:id', async (req, res) => {
 //         }
 //     ];
 // res.status(200).json({ myMovies: movies });
-// res.json({ movies });
+// // res.json({ movies });
 // });
